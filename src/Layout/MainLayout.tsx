@@ -18,7 +18,7 @@ const MainLayout = () => {
             <Menu />
           </div>
         </div>
-        <div className={`flex w-full`}>
+        <div className={`w-full h-full bg-gray-200`}>
           <Outlet />
         </div>
       </div>

@@ -71,7 +71,7 @@ const Charts: React.FC = () => {
   };
   return (
     <>
-      <section className={`bg-gray-200 p-4 w-full overflow-x-hidden`}>
+      <section className={`bg-gray-200 p-4 w-full h-full overflow-x-hidden`}>
         <div className={`flex justify-between`}>
           <div className={`w-1/2 text-xl font-bold`}>Charts</div>
           <div className={`w-1/2 flex justify-end`}>

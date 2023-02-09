@@ -28,6 +28,7 @@ const Crypts = () => {
 
   const [wallet, setWallet] = React.useState(20000);
   const [amount, setAmount] = React.useState<String>('');
+  const [walletMessage, setWalletMessage] = React.useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -92,13 +93,21 @@ const Crypts = () => {
     setUniqueWord(e.target.value);
   };
 
-  const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeAmount = (e: React .ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value) {
+      setWalletMessage(false)
+    }
     setAmount(e.target.value);
   };
 
   const handleAmount = (value: string) => {
-    setWallet(Number(wallet) - Number(amount));
-    setAmount('');
+    if (Number(wallet) - Number(amount) < 0 || Number(amount) < 0) {
+      setWalletMessage(true);
+    } else {
+      setWallet(Number(wallet) - Number(amount));
+      setAmount('');
+    }
+
     // console.log({
     //   name: value,
     //   price: amount
@@ -116,18 +125,29 @@ const Crypts = () => {
 
   return (
     <>
-      <div className={`flex p-4 w-full bg-gray-200`}>
-        <div className={`w-full h-full`}>
+      <div className={`p-4 flex bg-gray-200`}>
+        <div className={`w-full`}>
           <div className={`flex justify-between`}>
             <h1 className={`text-xl font-bold`}>Crypts</h1>
-            <p className={`w-1/4 p-1 font-bold`}>
+            {walletMessage ? (
+              <p
+                className={`absolute w-1/2 m-auto p-3 drop-shadow-lg bg-slate-100 rounded-lg cursor-pointer text-red-500 right-1/4 left-1/4 top-5`}
+                onClick={() => setWalletMessage(!walletMessage)}
+              >
+                You don't have much money. Click for close and enter correct count.
+              </p>
+            ) : (
+              ''
+            )}
+            <p className={` p-1 font-bold`}>
               Wallet: {wallet}
               <span>$</span>
             </p>
           </div>
+
           <div className={`flex justify-between p-2 w-full`}>
             <input
-              className={`w-1/2 rounded-md p-1 shadow-md`}
+              className={`w-2/4 rounded-md p-1 shadow-md`}
               type='text'
               placeholder='Search here...'
               name='searchWord'
@@ -166,16 +186,20 @@ const Crypts = () => {
                       id={`amount_${value.id}`}
                       onChange={handleChangeAmount}
                     />
-                    <button
-                      className={
-                        !Number.isNaN(Number(amount) + 1) && amount !== ''
-                          ? `w-1/2 bg-gray-100 rounded-md p-1 ease-in duration-100 border-2 hover:bg-gray-200 hover:-translate-y-1 hover:shadow-md`
-                          : `w-1/2 bg-gray-100 p-1 border-2 cursor-not-allowed`
-                      }
-                      onClick={() => handleAmount(value.id)}
-                    >
-                      Buy
-                    </button>
+                    {!Number.isNaN(Number(amount) + 1) && amount !== '' ? (
+                      <button
+                        className={`w-1/2 bg-gray-100 rounded-md p-1 ease-in duration-100 border-2 hover:bg-gray-200 hover:-translate-y-1 hover:shadow-md`}
+                        onClick={() => handleAmount(value.id)}
+                      >
+                        Buy
+                      </button>
+                    ) : (
+                      <button
+                        className={`w-1/2 bg-gray-100 p-1 border-2 cursor-not-allowed disabled:`}
+                      >
+                        Buy
+                      </button>
+                    )}
                   </div>
                 </div>
               ))
