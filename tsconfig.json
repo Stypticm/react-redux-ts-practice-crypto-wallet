@@ -15,11 +15,10 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "baseUrl": "./src",
+    "baseUrl": "src",
     "paths": {
-      "@common/*": ["./common/*"],
-      "@/*": ["./src/*"],
-      "@/main/*": ["./src/pages/MainPage/*"]
+      "@redux_/*": ["redux/*"],
+      "@main/*": ["pages/MainPage/*"],
     }
   },
   "include": ["src/**/*.ts", "src/**/*.js", "**/*.ts", "**/*.tsx"],  

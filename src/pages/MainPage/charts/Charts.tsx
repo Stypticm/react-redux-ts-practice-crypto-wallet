@@ -19,21 +19,21 @@ const Charts: React.FC = () => {
   const [period, setPeriod] = useState('1');
 
   useEffect(() => {
-    if (location.state !== null) {
-      try {
-        axios
-          .get(
-            `https://api.coingecko.com/api/v3/coins/${location.state}/ohlc?vs_currency=usd&days=${period}`
-          )
-          .then((response) => response.data)
-          .then((result) => {
-            setDataCrypt(result);
-            setNameCrypt(location.state);
-          });
-      } catch (err) {
-        console.log(err);
+      if (location.state !== null) {
+        try {
+          axios
+            .get(
+              `https://api.coingecko.com/api/v3/coins/${location.state}/ohlc?vs_currency=usd&days=${period}`
+            )
+            .then((response) => response.data)
+            .then((result) => {
+              setDataCrypt(result);
+              setNameCrypt(location.state);
+            });
+        } catch (err) {
+          console.log(err);
+        }
       }
-    }
   }, [location.state, period]);
 
   const options: ApexOptions = {

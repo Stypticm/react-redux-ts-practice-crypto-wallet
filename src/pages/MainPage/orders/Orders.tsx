@@ -1,13 +1,25 @@
+//icons
+import { FaCcPaypal, FaCcVisa, FaCcMastercard, FaFileSignature } from 'react-icons/fa';
 
+const methodButtonsStyle = `text-lg bg-gray-100 text-yellow-300 rounded-md px-3 py-1 ease-in duration-100 border-2 hover:bg-gray-200 hover:-translate-y-1 hover:shadow-md`
 
 const Orders = () => {
-
   return (
     <>
       <section className={`w-full h-full p-4 bg-gray-200`}>
         <div className={`flex justify-between pb-2`}>
           <h1 className={`text-xl font-bold`}>Orders</h1>
-          <button className={`w-1/4 bg-gray-100 rounded-md p-1 ease-in duration-100 border-2 hover:bg-gray-200 hover:-translate-y-1 hover:shadow-md`}>Filter</button>
+          <div className={`w-1/4 flex justify-between`}>
+            <button
+              className={`w-1/2 bg-gray-100 rounded-md p-1 ease-in duration-100 border-2 hover:bg-gray-200 hover:-translate-y-1 hover:shadow-md`}
+            >
+              Filter
+            </button>
+            <p className={`w-1/2 p-1 font-bold`}>
+              Wallet: 20000
+              <span>$</span>
+            </p>
+          </div>
         </div>
         <div className={`bg-gray-50 p-4 shadow-lg rounded-md`}>
           <div className={`flex`}>
@@ -25,7 +37,11 @@ const Orders = () => {
               <span className={`bg-yellow-200 p-1 rounded-lg text-gray-600`}>On hold</span>
             </div>
             <span className={`w-1/4 flex items-center`}>15 Minutes ago</span>
-            <span className={`w-1/4 flex items-center`}>PayPal</span>
+            <div className={`w-1/4 flex items-center`}>Choose method:
+              <button className={`${methodButtonsStyle}`}><FaCcPaypal/></button>
+              <button className={`w-1/4 flex items-center justify-between ${methodButtonsStyle}`}><FaCcVisa/><FaCcMastercard/></button>
+              <button className={methodButtonsStyle}><FaFileSignature/></button>
+            </div>
           </div>
           <div className={`flex p-1 mb-2 rounded-md bg-gray-200`}>
             <div className={`flex flex-col w-1/4`}>

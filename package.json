@@ -18,6 +18,7 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.5",
     "@mui/styled-engine-sc": "^5.11.0",
+    "@reduxjs/toolkit": "^1.9.2",
     "apexcharts": "^3.36.3",
     "axios": "^1.2.3",
     "coingecko-api": "^1.0.10",
@@ -30,6 +31,7 @@
     "react-google-charts": "^4.0.0",
     "react-hook-form": "^7.43.0",
     "react-icons": "^4.7.1",
+    "react-redux": "^8.0.5",
     "react-router-dom": "^6.6.2",
     "sort-by": "^0.0.2",
     "styled-components": "^5.3.6",
@@ -55,7 +57,8 @@
     "postcss": "^8.4.20",
     "prettier": "2.8.1",
     "tailwindcss": "^3.2.4",
-    "ts-alias": "^0.0.6",
+    "ts-alias": "^0.0.7",
+    "tsconfig-paths": "^4.1.2",
     "typescript": "*",
     "vite": "^4.0.0"
   }
