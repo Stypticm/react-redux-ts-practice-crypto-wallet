@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { decrease } from '../../../redux/walletSlice';
-import { useAppSelector, useAppDispatch } from '../../../hooks';
-import { useGetAllCryptsQuery } from '../../../redux/cryptsApi';
+import { decrease } from '@redux_/walletSlice';
+import { useAppSelector, useAppDispatch } from '@hooks';
+import { useGetAllCryptsQuery } from '@redux_/cryptsApi';
 
 interface Icrypto {
   name: string;
