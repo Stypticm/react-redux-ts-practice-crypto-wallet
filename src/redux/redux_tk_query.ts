@@ -21,8 +21,11 @@ export const cryptsApi = createApi({
     baseUrl: 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc'
   }),
   endpoints: (builder) => ({
-    getAllCrypts: builder.query<IallCrypts, []>({
-      query: () => 'crypts'
+    getAllCrypts: builder.query({
+      query: () => ({
+        url: 'crypts',
+        validateStatus: (response, result) => response.status === 200 && !result.isError
+      })
     })
   })
 });

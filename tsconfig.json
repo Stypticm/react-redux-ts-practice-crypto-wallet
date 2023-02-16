@@ -19,7 +19,8 @@
     "paths": {
       "@redux_/*": ["redux/*"],
       "@main/*": ["pages/MainPage/*"],
-      "@hooks": ["hooks"]
+      "@hooks": ["hooks"],
+      "@services/*": ["services/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.js", "**/*.ts", "**/*.tsx"],  

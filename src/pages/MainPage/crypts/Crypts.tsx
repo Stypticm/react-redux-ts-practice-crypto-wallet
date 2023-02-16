@@ -1,9 +1,17 @@
+// React
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+// axios
 import axios from 'axios';
+
+// redux
 import { decrease } from '@redux_/walletSlice';
 import { useAppSelector, useAppDispatch } from '@hooks';
-import { useGetAllCryptsQuery } from '@redux_/cryptsApi';
+
+// React Query
+import { useQuery } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 interface Icrypto {
   name: string;
@@ -26,12 +34,17 @@ interface IallCrypts extends Icrypto {
 const Crypts = () => {
   const wallet = useAppSelector((state) => state.wallet.value);
   const dispatch = useAppDispatch();
-  const { data = [] } = useGetAllCryptsQuery();
-  console.log(data)
+
+  const { data, isLoading, isError, isSuccess } = useQuery({
+    queryKey: ['allCrypts'],
+    queryFn: () =>
+      axios
+        .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc')
+        .then((res) => res.data)
+  });
 
   const [uniqueWord, setUniqueWord] = React.useState<string>('');
   const [price, setPrice] = React.useState('');
-  // const [allCrypts, setAllCrypts] = React.useState<IallCrypts[]>([]);
   const [crypts, setCrypts] = React.useState<Icrypto[]>([]);
 
   const [amount, setAmount] = React.useState<String>('');
@@ -40,51 +53,19 @@ const Crypts = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    isSuccess &&
       data.map((value: IallCrypts) => {
         if (uniqueWord.includes(value.id)) {
-          try {
-            axios
-              .get(`https://api.coingecko.com/api/v3/coins/${uniqueWord}`)
-              .then((response) => response.data)
-              .then((result) =>
-                setCrypts([
-                  {
-                    ...result,
-                    current_price: result.market_data.current_price.bmd,
-                    image: result.image.large
-                  }
-                ])
-              );
-          } catch (error) {
-            console.log('error', error);
-          }
+          setCrypts([value]);
         }
       });
-    }, 1000);
-
-    return () => {
-      clearTimeout(timer);
-    };
   }, [uniqueWord, price]);
-
-  function get20Crypts() {
-    try {
-      axios
-        .get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc')
-        .then((response) => response.data)
-        .then((result) => {
-          const showTwentyCrypts = result.slice(0, 20);
-          setCrypts(showTwentyCrypts);
-        });
-    } catch (error) {
-      console.log('error', error);
-    }
-  }
 
   const getTwentyCrypts = () => {
     setUniqueWord('');
-    get20Crypts();
+    if (data) {
+      setCrypts(data.slice(0, 20));
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -201,6 +182,7 @@ const Crypts = () => {
           </div>
         </div>
       </div>
+      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
 };

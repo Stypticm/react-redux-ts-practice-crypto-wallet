@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import walletReducer from './walletSlice';
-import { cryptsApi } from './cryptsApi';
+import { cryptsApi } from './redux_tk_query';
 
 const store = configureStore({
   reducer: {

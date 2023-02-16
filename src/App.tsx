@@ -5,7 +5,6 @@ import {
   RouterProvider,
   Route
 } from 'react-router-dom';
-import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import { ErrorPage } from './pages/ErrorPage/ErrorPage';
 
 import MainLayout from './Layout/MainLayout';
