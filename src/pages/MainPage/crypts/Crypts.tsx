@@ -64,14 +64,17 @@ const Crypts = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  
     if (e.target.value === '') {
       setCrypts(data);
       return;
+    } else if (e.target.value.length > 1) {
+      const filteredValues = data.filter((item: IallCrypts) => {
+        return item.id.indexOf(e.target.value) !== -1;
+      });
+      setCrypts(filteredValues);
     }
-    const filteredValues = crypts.filter((item) => {
-      return item.id.indexOf(e.target.value) !== -1;
-    });
-    setCrypts(filteredValues);
+    
   };
 
   const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
