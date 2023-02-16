@@ -10,7 +10,7 @@ import { decrease } from '@redux_/walletSlice';
 import { useAppSelector, useAppDispatch } from '@hooks';
 
 // React Query
-import { useQuery } from '@tanstack/react-query';
+import { QueriesObserver, QueryClient, useQuery } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 interface Icrypto {
@@ -43,7 +43,6 @@ const Crypts = () => {
         .then((res) => res.data)
   });
 
-  const [uniqueWord, setUniqueWord] = React.useState<string>('');
   const [price, setPrice] = React.useState('');
   const [crypts, setCrypts] = React.useState<Icrypto[]>([]);
 
@@ -53,23 +52,26 @@ const Crypts = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    isSuccess &&
-      data.map((value: IallCrypts) => {
-        if (uniqueWord.includes(value.id)) {
-          setCrypts([value]);
-        }
-      });
-  }, [uniqueWord, price]);
+    if (data) {
+      setCrypts(data);
+    }
+  }, [data]);
 
   const getTwentyCrypts = () => {
-    setUniqueWord('');
     if (data) {
       setCrypts(data.slice(0, 20));
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUniqueWord(e.target.value);
+    if (e.target.value === '') {
+      setCrypts(data);
+      return;
+    }
+    const filteredValues = crypts.filter((item) => {
+      return item.id.indexOf(e.target.value) !== -1;
+    });
+    setCrypts(filteredValues);
   };
 
   const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -126,7 +128,7 @@ const Crypts = () => {
               type='text'
               placeholder='Search here...'
               name='searchWord'
-              value={uniqueWord}
+              // value={uniqueWord}
               onChange={handleChange}
             />
             <button

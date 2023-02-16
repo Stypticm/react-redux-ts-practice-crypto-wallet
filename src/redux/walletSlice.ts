@@ -3,10 +3,12 @@ import type { RootState } from '../redux';
 
 type WalletState = {
   value: number;
+  boughtCrypts: [];
 };
 
 const initialState: WalletState = {
-  value: 20000
+  value: 20000,
+  boughtCrypts: []
 };
 
 const walletSlice = createSlice({
