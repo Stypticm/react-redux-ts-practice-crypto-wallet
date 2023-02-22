@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // redux
-import { decrease } from '@redux_/walletSlice';
+import { decrease, purchase } from '@redux_/walletSlice';
 import { useAppSelector, useAppDispatch } from '@hooks';
 
 // React Query
@@ -64,7 +64,6 @@ const Crypts = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  
     if (e.target.value === '') {
       setCrypts(data);
       return;
@@ -74,7 +73,6 @@ const Crypts = () => {
       });
       setCrypts(filteredValues);
     }
-    
   };
 
   const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,6 +87,7 @@ const Crypts = () => {
       setWalletMessage(true);
     } else {
       dispatch(decrease(Number(amount)));
+      dispatch(purchase({value: value, price: Number(amount), status: 'hold'}))
       setAmount('');
     }
 
@@ -187,7 +186,7 @@ const Crypts = () => {
           </div>
         </div>
       </div>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </>
   );
 };
