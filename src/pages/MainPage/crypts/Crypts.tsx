@@ -12,6 +12,7 @@ import { useAppSelector, useAppDispatch } from '@hooks';
 // React Query
 import { QueriesObserver, QueryClient, useQuery } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { useGetAllCryptsQuery } from '@redux_/redux_tk_query';
 
 interface Icrypto {
   name: string;
@@ -31,7 +32,13 @@ interface IallCrypts extends Icrypto {
   };
 }
 
+interface IAmount {
+  value: string;
+  currentPrice: string;
+}
+
 const Crypts = () => {
+  // const {data = [], isLoading, isError} = useGetAllCryptsQuery()
   const wallet = useAppSelector((state) => state.wallet.value);
   const dispatch = useAppDispatch();
 
@@ -47,6 +54,7 @@ const Crypts = () => {
   const [crypts, setCrypts] = React.useState<Icrypto[]>([]);
 
   const [amount, setAmount] = React.useState<String>('');
+  const [amountValue, setAmountValue] = React.useState<String>('');
   const [walletMessage, setWalletMessage] = React.useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -82,12 +90,12 @@ const Crypts = () => {
     setAmount(e.target.value);
   };
 
-  const handleAmount = (value: string) => {
+  const handleAmount = ({value, currentPrice}: IAmount) => {
     if (Number(wallet) - Number(amount) < 0 || Number(amount) < 0) {
       setWalletMessage(true);
     } else {
       dispatch(decrease(Number(amount)));
-      dispatch(purchase({value: value, price: Number(amount), status: 'hold'}))
+      dispatch(purchase({ value: value, price: Number(amount), amountOfCurrency: Number(currentPrice), status: 'hold', isVisible: true }));
       setAmount('');
     }
 
@@ -168,7 +176,7 @@ const Crypts = () => {
                     {!Number.isNaN(Number(amount) + 1) && amount !== '' ? (
                       <button
                         className={`w-1/2 bg-gray-100 rounded-md p-1 ease-in duration-100 border-2 hover:bg-gray-200 hover:-translate-y-1 hover:shadow-md`}
-                        onClick={() => handleAmount(value.id)}
+                        onClick={() => handleAmount({value: value.id, currentPrice: value.current_price})}
                       >
                         Buy
                       </button>
